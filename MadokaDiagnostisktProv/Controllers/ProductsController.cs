@@ -7,22 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MadokaDiagnostisktProv.Data;
 using MadokaDiagnostisktProv.Models;
+using Microsoft.Extensions.Logging;
 
 namespace MadokaDiagnostisktProv.Controllers
 {
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<ProductsController> _logger;
 
-        public ProductsController(ApplicationDbContext context)
+        public ProductsController(ApplicationDbContext context, ILogger<ProductsController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: Products1
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Products.Include(p => p.ProductCategory);
+            _logger.LogWarning("With great powers comes great responsibilities");
+            var applicationDbContext = _context.Products.Include(p => p.ProductCategory);           
             return View(await applicationDbContext.ToListAsync());
         }
 
