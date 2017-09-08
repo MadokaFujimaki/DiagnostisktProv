@@ -39,6 +39,7 @@ namespace MadokaDiagnostisktProv
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<ProductCategoryService>();
 
             services.AddMvc();
         }

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using MadokaDiagnostisktProv.Data;
 using MadokaDiagnostisktProv.Models;
 using Microsoft.Extensions.Logging;
+using MadokaDiagnostisktProv.Services;
 
 namespace MadokaDiagnostisktProv.Controllers
 {
@@ -15,11 +16,13 @@ namespace MadokaDiagnostisktProv.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger<ProductsController> _logger;
+        private readonly ProductCategoryService _productCategoryService;
 
-        public ProductsController(ApplicationDbContext context, ILogger<ProductsController> logger)
+        public ProductsController(ApplicationDbContext context, ILogger<ProductsController> logger, ProductCategoryService productCategoryService)
         {
             _context = context;
             _logger = logger;
+            _productCategoryService = productCategoryService;
         }
 
         // GET: Products1
@@ -69,7 +72,8 @@ namespace MadokaDiagnostisktProv.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductCategoryId"] = new SelectList(_context.Set<ProductCategory>(), "ProductCategoryId", "Name", product.ProductCategoryId);
+            //ViewData["ProductCategoryId"] = new SelectList(_context.Set<ProductCategory>(), "ProductCategoryId", "Name", product.ProductCategoryId);
+            ViewData["ProductCategoryId"] = _productCategoryService.GetSelectList(product);
             return View(product);
         }
 
@@ -86,7 +90,8 @@ namespace MadokaDiagnostisktProv.Controllers
             {
                 return NotFound();
             }
-            ViewData["ProductCategoryId"] = new SelectList(_context.Set<ProductCategory>(), "ProductCategoryId", "Name", product.ProductCategoryId);
+            //ViewData["ProductCategoryId"] = new SelectList(_context.Set<ProductCategory>(), "ProductCategoryId", "Name", product.ProductCategoryId);
+            ViewData["ProductCategoryId"] = _productCategoryService.GetSelectList(product);
             return View(product);
         }
 
@@ -122,7 +127,8 @@ namespace MadokaDiagnostisktProv.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductCategoryId"] = new SelectList(_context.Set<ProductCategory>(), "ProductCategoryId", "Name", product.ProductCategoryId);
+            //ViewData["ProductCategoryId"] = new SelectList(_context.Set<ProductCategory>(), "ProductCategoryId", "Name", product.ProductCategoryId);
+            ViewData["ProductCategoryId"] = _productCategoryService.GetSelectList(product);
             return View(product);
         }
 
