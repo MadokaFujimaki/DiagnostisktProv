@@ -48,7 +48,7 @@ namespace MadokaDiagnostisktProv.Controllers
         // GET: Products1/Create
         public IActionResult Create()
         {
-            ViewData["ProductCategoryId"] = new SelectList(_context.Set<ProductCategory>(), "ProductCategoryId", "ProductCategoryId");
+            ViewData["ProductCategoryId"] = new SelectList(_context.Set<ProductCategory>(), "ProductCategoryId", "Name");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace MadokaDiagnostisktProv.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductCategoryId"] = new SelectList(_context.Set<ProductCategory>(), "ProductCategoryId", "ProductCategoryId", product.ProductCategoryId);
+            ViewData["ProductCategoryId"] = new SelectList(_context.Set<ProductCategory>(), "ProductCategoryId", "Name", product.ProductCategoryId);
             return View(product);
         }
 
@@ -82,7 +82,7 @@ namespace MadokaDiagnostisktProv.Controllers
             {
                 return NotFound();
             }
-            ViewData["ProductCategoryId"] = new SelectList(_context.Set<ProductCategory>(), "ProductCategoryId", "ProductCategoryId", product.ProductCategoryId);
+            ViewData["ProductCategoryId"] = new SelectList(_context.Set<ProductCategory>(), "ProductCategoryId", "Name", product.ProductCategoryId);
             return View(product);
         }
 
@@ -118,7 +118,7 @@ namespace MadokaDiagnostisktProv.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductCategoryId"] = new SelectList(_context.Set<ProductCategory>(), "ProductCategoryId", "ProductCategoryId", product.ProductCategoryId);
+            ViewData["ProductCategoryId"] = new SelectList(_context.Set<ProductCategory>(), "ProductCategoryId", "Name", product.ProductCategoryId);
             return View(product);
         }
 
