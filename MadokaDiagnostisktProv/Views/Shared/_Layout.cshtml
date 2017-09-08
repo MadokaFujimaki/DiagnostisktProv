@@ -45,9 +45,10 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
+        @*<footer>
             <p>&copy; 2017 - MadokaDiagnostisktProv</p>
-        </footer>
+        </footer>*@
+        @Html.Partial("_FotterPartial")
     </div>
 
     <environment include="Development">
