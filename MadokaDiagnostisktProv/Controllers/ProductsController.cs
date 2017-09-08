@@ -19,13 +19,14 @@ namespace MadokaDiagnostisktProv.Controllers
             _context = context;
         }
 
-        // GET: Products
+        // GET: Products1
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Products.ToListAsync());
+            var applicationDbContext = _context.Products.Include(p => p.ProductCategory);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Products/Details/5
+        // GET: Products1/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,6 +35,7 @@ namespace MadokaDiagnostisktProv.Controllers
             }
 
             var product = await _context.Products
+                .Include(p => p.ProductCategory)
                 .SingleOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {
@@ -43,18 +45,19 @@ namespace MadokaDiagnostisktProv.Controllers
             return View(product);
         }
 
-        // GET: Products/Create
+        // GET: Products1/Create
         public IActionResult Create()
         {
+            ViewData["ProductCategoryId"] = new SelectList(_context.Set<ProductCategory>(), "ProductCategoryId", "ProductCategoryId");
             return View();
         }
 
-        // POST: Products/Create
+        // POST: Products1/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,Name,Price")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductId,Name,Price,ProductCategoryId")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -62,10 +65,11 @@ namespace MadokaDiagnostisktProv.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ProductCategoryId"] = new SelectList(_context.Set<ProductCategory>(), "ProductCategoryId", "ProductCategoryId", product.ProductCategoryId);
             return View(product);
         }
 
-        // GET: Products/Edit/5
+        // GET: Products1/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,15 +82,16 @@ namespace MadokaDiagnostisktProv.Controllers
             {
                 return NotFound();
             }
+            ViewData["ProductCategoryId"] = new SelectList(_context.Set<ProductCategory>(), "ProductCategoryId", "ProductCategoryId", product.ProductCategoryId);
             return View(product);
         }
 
-        // POST: Products/Edit/5
+        // POST: Products1/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Name,Price")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Name,Price,ProductCategoryId")] Product product)
         {
             if (id != product.ProductId)
             {
@@ -113,10 +118,11 @@ namespace MadokaDiagnostisktProv.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ProductCategoryId"] = new SelectList(_context.Set<ProductCategory>(), "ProductCategoryId", "ProductCategoryId", product.ProductCategoryId);
             return View(product);
         }
 
-        // GET: Products/Delete/5
+        // GET: Products1/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,6 +131,7 @@ namespace MadokaDiagnostisktProv.Controllers
             }
 
             var product = await _context.Products
+                .Include(p => p.ProductCategory)
                 .SingleOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {
@@ -134,7 +141,7 @@ namespace MadokaDiagnostisktProv.Controllers
             return View(product);
         }
 
-        // POST: Products/Delete/5
+        // POST: Products1/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
